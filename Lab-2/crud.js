@@ -25,8 +25,6 @@ const addToCart = async (product) => {
   console.log(`product added/updated with id ${product.id} into cart`);
 };
 
-
-
 const showCart = async () => {
   const data = await getCart();
   console.table(data);
@@ -92,7 +90,7 @@ const main = async () => {
         console.log("See you later");
         break;
       default:
-        console.log("Invalid choice! try again 🛑");
+        console.log("Invalid choice! Try again 🛑");
     }
   } while (choice != 5);
   cin.close();
