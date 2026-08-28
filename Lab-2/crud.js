@@ -25,9 +25,31 @@ const addToCart = async (product) => {
   console.log(`product added/updated with id ${product.id} into cart`);
 };
 
+
+
 const showCart = async () => {
   const data = await getCart();
   console.table(data);
+  let total = 0;
+  //for (let i = 0; i < data.length; i++) {
+  //total = total + data[i].qty * data[i].price;
+  // }
+  total = data.reduce((t, item) => t + item.qty * item.price + t, 0);
+
+  console.log("You have pay : Rs.", total);
+};
+
+const removeFromCart = async (pid) => {
+  const data = await getCart();
+  const count = data.length;
+  const newData = data.filter((item) => item.id !== pid);
+  const newCount = newData.length;
+  if (count == newCount) {
+    console.log(`Productn with id ${pid} not found`);
+  } else {
+    await saveCart(newData);
+    console.log(`product with id ${pid} deleted successfully`);
+  }
 };
 
 const main = async () => {
@@ -60,7 +82,8 @@ const main = async () => {
 
         break;
       case 3:
-        console.log("remove product");
+        let pid = await cin.question("Enter product id to remove");
+        await removeFromCart(Number(pid));
         break;
       case 4:
         console.log("Update product quantity");

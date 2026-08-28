@@ -12,13 +12,6 @@
     "qty": 4
   },
   {
-    "id": 103,
-    "name": "Product C",
-    "price": 29.99,
-    "qty": 4
-  },
-
-  {
     "id": 104,
     "name": "Product D",
     "price": 30,
