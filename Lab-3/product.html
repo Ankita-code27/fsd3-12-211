@@ -3,18 +3,944 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Product</title>
+
+    <title>LUXORA | Premium Watches</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Arial, sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: #080808;
+        color: white;
+      }
+
+      /* ================= NAVBAR ================= */
+
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 20px 8%;
+
+        background: rgba(8, 8, 8, 0.75);
+        backdrop-filter: blur(15px);
+
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .logo {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 3px;
+      }
+
+      .logo span {
+        color: #d4af37;
+      }
+
+      nav ul {
+        display: flex;
+        gap: 35px;
+        list-style: none;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        color: #ddd;
+        font-size: 15px;
+        transition: 0.3s;
+      }
+
+      nav ul li a:hover {
+        color: #d4af37;
+      }
+
+      .nav-btn {
+        padding: 10px 20px;
+        border: 1px solid #d4af37;
+        border-radius: 25px;
+        color: #d4af37 !important;
+      }
+
+      /* ================= HERO ================= */
+
+      .hero {
+        min-height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 120px 10% 70px;
+
+        background:
+          radial-gradient(
+            circle at 75% 50%,
+            rgba(212, 175, 55, 0.18),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 20% 80%,
+            rgba(212, 175, 55, 0.08),
+            transparent 30%
+          ),
+          #080808;
+
+        overflow: hidden;
+      }
+
+      .hero-content {
+        width: 50%;
+      }
+
+      .small-title {
+        color: #d4af37;
+        letter-spacing: 5px;
+        font-size: 13px;
+        margin-bottom: 20px;
+      }
+
+      .hero h1 {
+        font-size: clamp(55px, 7vw, 95px);
+        line-height: 0.95;
+        margin-bottom: 25px;
+      }
+
+      .hero h1 span {
+        color: #d4af37;
+      }
+
+      .hero p {
+        color: #aaa;
+        font-size: 17px;
+        line-height: 1.8;
+        max-width: 520px;
+        margin-bottom: 35px;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 15px;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        padding: 15px 28px;
+        border-radius: 30px;
+        text-decoration: none;
+        transition: 0.3s;
+        font-weight: 600;
+      }
+
+      .primary-btn {
+        background: #d4af37;
+        color: #111;
+      }
+
+      .primary-btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
+      }
+
+      .secondary-btn {
+        border: 1px solid #444;
+        color: white;
+      }
+
+      .secondary-btn:hover {
+        border-color: #d4af37;
+        color: #d4af37;
+      }
+
+      /* ================= WATCH ================= */
+
+      .hero-watch {
+        width: 45%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .watch-circle {
+        width: 380px;
+        height: 380px;
+
+        border-radius: 50%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: radial-gradient(circle, #333 0%, #111 65%, #000 100%);
+
+        border: 12px solid #222;
+
+        box-shadow:
+          0 0 0 5px #d4af37,
+          0 0 70px rgba(212, 175, 55, 0.35);
+
+        animation: float 4s ease-in-out infinite;
+      }
+
+      .watch-face {
+        width: 285px;
+        height: 285px;
+
+        border-radius: 50%;
+
+        background: radial-gradient(circle at center, #222, #050505);
+
+        border: 3px solid #d4af37;
+
+        position: relative;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .watch-face::before {
+        content: "LUXORA";
+        position: absolute;
+        top: 65px;
+
+        color: #d4af37;
+        letter-spacing: 3px;
+        font-size: 13px;
+      }
+
+      .watch-face::after {
+        content: "AUTOMATIC";
+        position: absolute;
+        bottom: 70px;
+
+        color: #777;
+        font-size: 9px;
+        letter-spacing: 2px;
+      }
+
+      .center-dot {
+        width: 15px;
+        height: 15px;
+
+        background: #d4af37;
+        border-radius: 50%;
+
+        position: absolute;
+        z-index: 5;
+      }
+
+      .hand {
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+
+        transform-origin: bottom;
+
+        background: white;
+        border-radius: 10px;
+      }
+
+      .hour {
+        width: 7px;
+        height: 75px;
+        transform: translateX(-50%) rotate(35deg);
+      }
+
+      .minute {
+        width: 4px;
+        height: 100px;
+        background: #d4af37;
+        transform: translateX(-50%) rotate(120deg);
+      }
+
+      .second {
+        width: 2px;
+        height: 110px;
+        background: #e44;
+        transform: translateX(-50%) rotate(200deg);
+      }
+
+      .number {
+        position: absolute;
+        color: #ddd;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .n12 {
+        top: 18px;
+      }
+      .n3 {
+        right: 20px;
+      }
+      .n6 {
+        bottom: 18px;
+      }
+      .n9 {
+        left: 20px;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      /* ================= STATS ================= */
+
+      .stats {
+        display: flex;
+        justify-content: center;
+        gap: 80px;
+
+        padding: 25px;
+
+        background: #101010;
+        border-top: 1px solid #222;
+        border-bottom: 1px solid #222;
+      }
+
+      .stat {
+        text-align: center;
+      }
+
+      .stat h2 {
+        color: #d4af37;
+        font-size: 28px;
+      }
+
+      .stat p {
+        color: #888;
+        font-size: 13px;
+        margin-top: 5px;
+      }
+
+      /* ================= PRODUCTS ================= */
+
+      .section {
+        padding: 100px 8%;
+      }
+
+      .section-heading {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-heading span {
+        color: #d4af37;
+        font-size: 12px;
+        letter-spacing: 4px;
+      }
+
+      .section-heading h2 {
+        font-size: 45px;
+        margin-top: 12px;
+      }
+
+      .section-heading p {
+        color: #777;
+        margin-top: 12px;
+      }
+
+      .products {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+      }
+
+      .product {
+        background: linear-gradient(145deg, #171717, #0d0d0d);
+
+        border: 1px solid #242424;
+        border-radius: 20px;
+
+        padding: 20px;
+
+        transition: 0.4s;
+      }
+
+      .product:hover {
+        transform: translateY(-12px);
+        border-color: #d4af37;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .product-image {
+        height: 280px;
+
+        border-radius: 15px;
+
+        background: radial-gradient(circle, #292929, #101010);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-bottom: 22px;
+
+        position: relative;
+        overflow: hidden;
+      }
+
+      .product-image::after {
+        content: "";
+        position: absolute;
+
+        width: 180px;
+        height: 180px;
+
+        border-radius: 50%;
+
+        border: 1px solid rgba(212, 175, 55, 0.25);
+      }
+
+      .mini-watch {
+        font-size: 110px;
+        z-index: 2;
+        transition: 0.4s;
+      }
+
+      .product:hover .mini-watch {
+        transform: scale(1.12) rotate(-8deg);
+      }
+
+      .tag {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+
+        background: #d4af37;
+        color: #111;
+
+        padding: 6px 12px;
+        border-radius: 20px;
+
+        font-size: 11px;
+        font-weight: bold;
+
+        z-index: 5;
+      }
+
+      .product h3 {
+        font-size: 21px;
+        margin-bottom: 8px;
+      }
+
+      .product p {
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 18px;
+      }
+
+      .product-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .price {
+        color: #d4af37;
+        font-size: 21px;
+        font-weight: bold;
+      }
+
+      .buy {
+        background: white;
+        color: #111;
+
+        text-decoration: none;
+
+        padding: 9px 17px;
+        border-radius: 20px;
+
+        font-size: 13px;
+        font-weight: bold;
+
+        transition: 0.3s;
+      }
+
+      .buy:hover {
+        background: #d4af37;
+      }
+
+      /* ================= OFFER ================= */
+
+      .offer {
+        margin: 0 8% 100px;
+
+        padding: 70px;
+
+        border-radius: 25px;
+
+        background:
+          radial-gradient(
+            circle at 80% 50%,
+            rgba(212, 175, 55, 0.2),
+            transparent 35%
+          ),
+          linear-gradient(110deg, #171717, #0d0d0d);
+
+        border: 1px solid #2c2c2c;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .offer h2 {
+        font-size: 42px;
+        margin-bottom: 12px;
+      }
+
+      .offer p {
+        color: #888;
+      }
+
+      .discount {
+        text-align: right;
+      }
+
+      .discount h3 {
+        font-size: 55px;
+        color: #d4af37;
+      }
+
+      /* ================= FEATURES ================= */
+
+      .features {
+        background: #101010;
+
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        gap: 20px;
+
+        padding: 70px 8%;
+      }
+
+      .feature {
+        text-align: center;
+        padding: 25px;
+      }
+
+      .feature-icon {
+        font-size: 35px;
+        margin-bottom: 15px;
+      }
+
+      .feature h3 {
+        margin-bottom: 10px;
+      }
+
+      .feature p {
+        color: #777;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      /* ================= FOOTER ================= */
+
+      footer {
+        padding: 60px 8% 30px;
+        background: #050505;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 40px;
+        border-bottom: 1px solid #222;
+      }
+
+      .footer-content h2 {
+        letter-spacing: 3px;
+      }
+
+      .footer-content h2 span {
+        color: #d4af37;
+      }
+
+      .footer-content p {
+        color: #777;
+        margin-top: 12px;
+      }
+
+      .social {
+        display: flex;
+        gap: 15px;
+      }
+
+      .social a {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid #333;
+        border-radius: 50%;
+
+        color: white;
+        text-decoration: none;
+
+        transition: 0.3s;
+      }
+
+      .social a:hover {
+        border-color: #d4af37;
+        color: #d4af37;
+      }
+
+      .copyright {
+        text-align: center;
+        color: #555;
+        padding-top: 25px;
+        font-size: 13px;
+      }
+
+      /* ================= RESPONSIVE ================= */
+
+      @media (max-width: 900px) {
+        nav ul {
+          display: none;
+        }
+
+        .hero {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .hero-content,
+        .hero-watch {
+          width: 100%;
+        }
+
+        .hero-content {
+          margin-bottom: 70px;
+        }
+
+        .hero p {
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .buttons {
+          justify-content: center;
+        }
+
+        .watch-circle {
+          width: 300px;
+          height: 300px;
+        }
+
+        .watch-face {
+          width: 220px;
+          height: 220px;
+        }
+
+        .products {
+          grid-template-columns: 1fr;
+        }
+
+        .features {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .offer {
+          flex-direction: column;
+          text-align: center;
+          gap: 30px;
+        }
+
+        .discount {
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .stats {
+          gap: 25px;
+        }
+
+        .stat h2 {
+          font-size: 20px;
+        }
+
+        .section-heading h2 {
+          font-size: 35px;
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+        }
+
+        .offer {
+          margin-left: 5%;
+          margin-right: 5%;
+          padding: 40px 20px;
+        }
+
+        .offer h2 {
+          font-size: 30px;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 25px;
+        }
+      }
+    </style>
   </head>
+
   <body>
-    <h1>Product Page</h1>
+    <!-- ================= NAVBAR ================= -->
 
-    <div>
-      <p>Price: ₹70,000</p>
-      <p>Quantity: 1</p>
-      <p>Discount: 10%</p>
+    <nav>
+      <div class="logo">LUX<span>ORA</span></div>
 
-      <button>Add to Cart</button>
-      <button>Buy Now</button>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#collection">Collection</a></li>
+        <li><a href="#offers">Offers</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-btn">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="small-title">PREMIUM WATCHES</div>
+
+        <h1>
+          TIMELESS<br />
+          <span>ELEGANCE.</span>
+        </h1>
+
+        <p>
+          Discover a collection of premium watches crafted for those who
+          appreciate precision, luxury and timeless design.
+        </p>
+
+        <div class="buttons">
+          <a href="#collection" class="primary-btn"> Explore Collection → </a>
+
+          <a href="#about" class="secondary-btn"> Discover More </a>
+        </div>
+      </div>
+
+      <div class="hero-watch">
+        <div class="watch-circle">
+          <div class="watch-face">
+            <span class="number n12">12</span>
+            <span class="number n3">3</span>
+            <span class="number n6">6</span>
+            <span class="number n9">9</span>
+
+            <div class="hand hour"></div>
+            <div class="hand minute"></div>
+            <div class="hand second"></div>
+
+            <div class="center-dot"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= STATS ================= -->
+
+    <div class="stats">
+      <div class="stat">
+        <h2>10K+</h2>
+        <p>Happy Customers</p>
+      </div>
+
+      <div class="stat">
+        <h2>25+</h2>
+        <p>Premium Designs</p>
+      </div>
+
+      <div class="stat">
+        <h2>5★</h2>
+        <p>Customer Rating</p>
+      </div>
+
+      <div class="stat">
+        <h2>2 YR</h2>
+        <p>Warranty</p>
+      </div>
     </div>
+
+    <!-- ================= COLLECTION ================= -->
+
+    <section class="section" id="collection">
+      <div class="section-heading">
+        <span>OUR COLLECTION</span>
+
+        <h2>Choose Your Time</h2>
+
+        <p>Designed for every moment of your life.</p>
+      </div>
+
+      <div class="products">
+        <!-- PRODUCT 1 -->
+
+        <div class="product">
+          <div class="product-image">
+            <div class="tag">BEST SELLER</div>
+
+            <div class="mini-watch">⌚</div>
+          </div>
+
+          <h3>Royal Gold</h3>
+
+          <p>Classic luxury with a sophisticated golden finish.</p>
+
+          <div class="product-bottom">
+            <div class="price">₹7,999</div>
+
+            <a href="#" class="buy"> Buy Now </a>
+          </div>
+        </div>
+
+        <!-- PRODUCT 2 -->
+
+        <div class="product">
+          <div class="product-image">
+            <div class="tag">NEW</div>
+
+            <div class="mini-watch">⌚</div>
+          </div>
+
+          <h3>Midnight Black</h3>
+
+          <p>Bold black design for a modern lifestyle.</p>
+
+          <div class="product-bottom">
+            <div class="price">₹9,499</div>
+
+            <a href="#" class="buy"> Buy Now </a>
+          </div>
+        </div>
+
+        <!-- PRODUCT 3 -->
+
+        <div class="product">
+          <div class="product-image">
+            <div class="tag">PREMIUM</div>
+
+            <div class="mini-watch">⌚</div>
+          </div>
+
+          <h3>Silver Classic</h3>
+
+          <p>Minimal design with a premium silver body.</p>
+
+          <div class="product-bottom">
+            <div class="price">₹6,999</div>
+
+            <a href="#" class="buy"> Buy Now </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= OFFER ================= -->
+
+    <section class="offer" id="offers">
+      <div>
+        <span class="small-title"> LIMITED TIME OFFER </span>
+
+        <h2>
+          Your Time.<br />
+          Your Style.
+        </h2>
+
+        <p>Get premium watches at an exclusive price.</p>
+      </div>
+
+      <div class="discount">
+        <h3>30% OFF</h3>
+
+        <a href="#collection" class="primary-btn"> Shop Offer </a>
+      </div>
+    </section>
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features" id="about">
+      <div class="feature">
+        <div class="feature-icon">⚙️</div>
+
+        <h3>Precision</h3>
+
+        <p>Carefully engineered movements for accurate timekeeping.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">💎</div>
+
+        <h3>Premium Quality</h3>
+
+        <p>High-quality materials crafted for lasting elegance.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🚚</div>
+
+        <h3>Fast Delivery</h3>
+
+        <p>Secure and reliable delivery right to your doorstep.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🛡️</div>
+
+        <h3>2 Year Warranty</h3>
+
+        <p>Complete peace of mind with our extended warranty.</p>
+      </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer id="contact">
+      <div class="footer-content">
+        <div>
+          <h2>LUX<span>ORA</span></h2>
+
+          <p>Time crafted for extraordinary people.</p>
+        </div>
+
+        <div class="social">
+          <a href="#">f</a>
+          <a href="#">𝕏</a>
+          <a href="#">in</a>
+          <a href="#">◎</a>
+        </div>
+      </div>
+
+      <div class="copyright">© 2026 LUXORA Watches. All Rights Reserved.</div>
+    </footer>
   </body>
 </html>

@@ -34,3 +34,23 @@ npm start
 -403=forbidden
 -404=not found
 -500=Internal Server Error
+
+## Server can send to client
+
+1. html file
+2. json file
+3. plain file
+4. js file
+5. html content -> prg2,prg3
+6. any file to downloaded
+   7.etc
+
+## Type of information -> res.writeHead() , setHeader()
+
+1.text/html -> for html file/contents
+2.text/json -> for json data
+3.text.css -> css file/contents
+4.application -> for file
+5.text/plain -> for plain text file
+
+## Note: .gitignore -> this files contains the list of files or folder that is not added to git , these files/folder will not push on GitHub
