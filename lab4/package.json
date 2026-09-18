@@ -1,6 +1,7 @@
 {
-  "name": "lab-4",
+  "name": "lab4",
   "version": "1.0.0",
+  "description": "",
   "main": "prg7.js",
   "scripts": {
     "start": "node app.js",
@@ -10,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "type": "module",
-  "description": "",
   "devDependencies": {
     "nodemon": "^3.1.14"
   }
