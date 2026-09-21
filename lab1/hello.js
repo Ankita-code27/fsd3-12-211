@@ -15,4 +15,3 @@ console.log(add2(20, 10));
 //Backened->Nodejs,SpringBoot,Fast API,Django,PHP
 
 //User Emitter
-//
