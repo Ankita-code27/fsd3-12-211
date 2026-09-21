@@ -7,7 +7,7 @@ class DomClass extends EventEmitter {
   removeEventListener(eventName, callback) {
     this.on(eventName, callback);
   }
-  //dispatch->click
+  //dispatch->click here
   dispatchEvent(eventName, eventData = {}) {
     const event = {
       type: eventName,
