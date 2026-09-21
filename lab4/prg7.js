@@ -26,7 +26,7 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify({ msg: "remove 1" }));
   } else {
     res.statusCode = 404;
-    res.end("Not Found");
+    res.end("Not found");
   }
 });
 
