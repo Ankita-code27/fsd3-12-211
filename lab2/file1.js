@@ -1,6 +1,6 @@
 import { writeFile, appendFile, readFile } from "fs/promises";
 
-//await writeFile("hello.txt", "JS is easy");
+//await writeFile("hello.txt", "JS is Easy");
 
 //await appendFile("hello.txt", "\nFS is much easy than others😊");
 await appendFile("hello.txt", "\nAnkita Kumari Gupta");
