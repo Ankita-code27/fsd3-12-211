@@ -36,4 +36,4 @@ const deleteFile = async (file2) => {
 const data = await readData("file3.js");
 console.log(data);
 
-//If a function uses an awaits keyword then the function must be async.
+//If a function uses an awaits keyword then the function must be an async.
