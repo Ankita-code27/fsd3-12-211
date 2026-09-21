@@ -42,7 +42,7 @@ orderSystem.on("error", (err) => {
   console.error("❌ Order system error:", err.message);
 });
 
-// --- Simulate placing an order ---
+// --- Simulate placing an order ----
 orderSystem.placeOrder({
   id: "ORD1001",
   customerName: "Dhanesh Kumar",
