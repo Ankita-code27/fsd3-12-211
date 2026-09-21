@@ -31,7 +31,7 @@ const showCart = async () => {
   let total = 0;
   //for (let i = 0; i < data.length; i++) {
   //total = total + data[i].qty * data[i].price;
-  // }
+  //  }
   total = data.reduce((t, item) => t + item.qty * item.price + t, 0);
 
   console.log("You have pay : Rs.", total);
