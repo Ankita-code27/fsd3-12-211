@@ -1,0 +1,1678 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PulseFlow — Intelligent Workflow & Analytics Engine</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', "sans-serif"],
+            },
+            colors: {
+              brand: {
+                50: "#eef2ff",
+                100: "#e0e7ff",
+                200: "#c7d2fe",
+                500: "#6366f1",
+                600: "#4f46e5",
+                700: "#4338ca",
+                900: "#1e1b4b",
+              },
+            },
+            animation: {
+              blob: "blob 7s infinite",
+              float: "float 4s ease-in-out infinite",
+            },
+            keyframes: {
+              blob: {
+                "0%": { transform: "translate(0px, 0px) scale(1)" },
+                "33%": { transform: "translate(30px, -40px) scale(1.1)" },
+                "66%": { transform: "translate(-20px, 20px) scale(0.95)" },
+                "100%": { transform: "translate(0px, 0px) scale(1)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-8px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom styles for gradient blurs and subtle utilities -->
+    <style>
+      .glassmorphism {
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+      .hero-glow {
+        background: radial-gradient(
+          circle at 50% 30%,
+          rgba(99, 102, 241, 0.15) 0%,
+          rgba(238, 242, 255, 0) 70%
+        );
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 9999px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-50 text-slate-800 font-sans antialiased overflow-x-hidden selection:bg-brand-500 selection:text-white"
+  >
+    <!-- Toast Notification Container -->
+    <div
+      id="toast"
+      class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 text-sm font-medium border border-slate-700"
+    >
+      <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+      <span id="toast-message">Action successful!</span>
+    </div>
+
+    <header
+      class="fixed top-0 left-0 right-0 z-40 glassmorphism border-b border-slate-200/80 transition-all duration-300"
+    >
+      <nav
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between"
+      >
+        <!-- Brand Logo -->
+        <a href="#" class="flex items-center gap-2.5 group">
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-brand-500/25 group-hover:scale-105 transition-transform duration-200"
+          >
+            <i data-lucide="zap" class="w-5 h-5 stroke-[2.5]"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-extrabold tracking-tight text-slate-900"
+              >Pulse<span class="text-brand-600">Flow</span></span
+            >
+          </div>
+        </a>
+
+        <!-- Desktop Nav Items -->
+        <div
+          class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600"
+        >
+          <a href="#features" class="hover:text-brand-600 transition-colors"
+            >Features</a
+          >
+          <a href="#how-it-works" class="hover:text-brand-600 transition-colors"
+            >How It Works</a
+          >
+          <a href="#pricing" class="hover:text-brand-600 transition-colors"
+            >Pricing</a
+          >
+          <a href="#testimonials" class="hover:text-brand-600 transition-colors"
+            >Testimonials</a
+          >
+          <a href="#faq" class="hover:text-brand-600 transition-colors">FAQ</a>
+        </div>
+
+        <!-- Action Button Group -->
+        <div class="hidden md:flex items-center gap-4">
+          <a
+            href="#pricing"
+            class="text-sm font-semibold text-slate-700 hover:text-slate-900 transition-colors px-3 py-2"
+            >Sign In</a
+          >
+          <a
+            href="#pricing"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 text-white text-sm font-medium hover:bg-brand-600 hover:shadow-lg hover:shadow-brand-500/25 transition-all duration-200"
+          >
+            Get Started
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+        <!-- Mobile Hamburger Button -->
+        <button
+          id="mobile-menu-toggle"
+          type="button"
+          class="md:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg focus:outline-none"
+          aria-label="Toggle menu"
+        >
+          <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+        </button>
+      </nav>
+
+      <!-- Mobile Drawer Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden px-4 pt-3 pb-6 border-b border-slate-200 bg-white/95 backdrop-blur-lg"
+      >
+        <div class="flex flex-col space-y-3 font-semibold text-slate-700">
+          <a
+            href="#features"
+            class="mobile-nav-link py-2 px-3 rounded-lg hover:bg-slate-100"
+            >Features</a
+          >
+          <a
+            href="#how-it-works"
+            class="mobile-nav-link py-2 px-3 rounded-lg hover:bg-slate-100"
+            >How It Works</a
+          >
+          <a
+            href="#pricing"
+            class="mobile-nav-link py-2 px-3 rounded-lg hover:bg-slate-100"
+            >Pricing</a
+          >
+          <a
+            href="#testimonials"
+            class="mobile-nav-link py-2 px-3 rounded-lg hover:bg-slate-100"
+            >Testimonials</a
+          >
+          <a
+            href="#faq"
+            class="mobile-nav-link py-2 px-3 rounded-lg hover:bg-slate-100"
+            >FAQ</a
+          >
+          <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+            <a
+              href="#pricing"
+              class="w-full text-center py-2.5 px-4 rounded-xl border border-slate-200 font-semibold text-slate-700 hover:bg-slate-50"
+              >Sign In</a
+            >
+            <a
+              href="#pricing"
+              class="w-full text-center py-2.5 px-4 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-700 shadow-md"
+              >Get Started Free</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="relative pt-28">
+      <!-- Background dynamic ambient blur -->
+      <div
+        class="absolute top-10 left-1/2 -translate-x-1/2 -z-10 w-[640px] sm:w-[900px] h-[450px] bg-gradient-to-tr from-brand-200 via-indigo-100 to-purple-100 rounded-full blur-3xl opacity-60"
+      ></div>
+
+      <section
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 text-center"
+      >
+        <!-- Announcement Pill -->
+        <div
+          class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-50 border border-brand-200/70 text-brand-700 text-xs sm:text-sm font-semibold mb-8 hover:bg-brand-100 cursor-pointer transition-colors shadow-sm"
+        >
+          <span
+            class="flex h-2 w-2 rounded-full bg-brand-500 animate-pulse"
+          ></span>
+          <span>PulseFlow 3.0 is live</span>
+          <span class="text-slate-400">|</span>
+          <span class="flex items-center gap-1"
+            >Read changelog
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i
+          ></span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1
+          class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 max-w-4xl mx-auto leading-[1.12]"
+        >
+          Automate workflows <br class="hidden sm:inline" />
+          <span
+            class="bg-gradient-to-r from-brand-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent"
+            >without the complexity.</span
+          >
+        </h1>
+
+        <!-- Subtitle -->
+        <p
+          class="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed"
+        >
+          Synchronize your databases, streamline operational logic, and monitor
+          revenue telemetry with real-time AI automation. Built for rapid tech
+          scale.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div
+          class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto"
+        >
+          <a
+            href="#pricing"
+            class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-brand-600 text-white font-semibold shadow-lg shadow-brand-500/30 hover:bg-brand-700 hover:shadow-brand-500/40 transform hover:-translate-y-0.5 transition-all text-center"
+          >
+            Start 14-Day Free Trial
+          </a>
+          <button
+            id="open-demo-modal"
+            type="button"
+            class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold shadow-sm hover:bg-slate-50 hover:border-slate-400 flex items-center justify-center gap-2 transition-all"
+          >
+            <i data-lucide="play-circle" class="w-5 h-5 text-brand-600"></i>
+            Watch 2-Min Demo
+          </button>
+        </div>
+
+        <!-- Micro Trust Badges -->
+        <div
+          class="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm text-slate-500"
+        >
+          <span class="flex items-center gap-1.5"
+            ><i
+              data-lucide="check"
+              class="w-4 h-4 text-emerald-500 stroke-[3]"
+            ></i>
+            No credit card needed</span
+          >
+          <span class="flex items-center gap-1.5"
+            ><i
+              data-lucide="check"
+              class="w-4 h-4 text-emerald-500 stroke-[3]"
+            ></i>
+            5-minute setup</span
+          >
+          <span class="flex items-center gap-1.5"
+            ><i
+              data-lucide="check"
+              class="w-4 h-4 text-emerald-500 stroke-[3]"
+            ></i>
+            SOC2 Type II Certified</span
+          >
+        </div>
+
+        <div class="mt-16 relative max-w-5xl mx-auto">
+          <div
+            class="relative rounded-2xl p-2 bg-gradient-to-b from-slate-200 to-slate-100 shadow-2xl border border-slate-200"
+          >
+            <div
+              class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 text-left"
+            >
+              <!-- Mock window controls -->
+              <div
+                class="px-4 py-3 bg-slate-800/90 border-b border-slate-700/60 flex items-center justify-between"
+              >
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                  <span class="ml-2 text-xs font-mono text-slate-400"
+                    >app.pulseflow.io/workspace/live</span
+                  >
+                </div>
+                <span
+                  class="text-xs px-2.5 py-0.5 bg-emerald-500/20 text-emerald-300 rounded font-mono"
+                  >Cluster: Healthy (99.99%)</span
+                >
+              </div>
+
+              <!-- Mock Dashboard Body -->
+              <div
+                class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-900 text-white"
+              >
+                <!-- KPI Card 1 -->
+                <div
+                  class="lg:col-span-4 p-5 rounded-xl bg-slate-800/80 border border-slate-700/50"
+                >
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="text-xs font-medium uppercase tracking-wider text-slate-400"
+                      >Monthly Run Rate</span
+                    >
+                    <span
+                      class="text-xs text-emerald-400 font-semibold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/50"
+                      >+24.8%</span
+                    >
+                  </div>
+                  <p class="text-2xl sm:text-3xl font-bold mt-2">$84,320</p>
+                  <div
+                    class="w-full bg-slate-700 h-1.5 rounded-full mt-4 overflow-hidden"
+                  >
+                    <div class="bg-brand-500 h-full w-[78%]"></div>
+                  </div>
+                  <p class="text-xs text-slate-400 mt-2">
+                    78% of monthly target hit
+                  </p>
+                </div>
+
+                <!-- KPI Card 2 -->
+                <div
+                  class="lg:col-span-4 p-5 rounded-xl bg-slate-800/80 border border-slate-700/50"
+                >
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="text-xs font-medium uppercase tracking-wider text-slate-400"
+                      >Automations Executed</span
+                    >
+                    <span
+                      class="text-xs text-emerald-400 font-semibold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/50"
+                      >Realtime</span
+                    >
+                  </div>
+                  <p class="text-2xl sm:text-3xl font-bold mt-2">1,482,900</p>
+                  <div
+                    class="flex items-center gap-1.5 mt-3 text-xs text-slate-400"
+                  >
+                    <span
+                      class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"
+                    ></span>
+                    42.3 events processed / sec
+                  </div>
+                </div>
+
+                <!-- KPI Card 3 -->
+                <div
+                  class="lg:col-span-4 p-5 rounded-xl bg-slate-800/80 border border-slate-700/50"
+                >
+                  <div class="flex items-center justify-between">
+                    <span
+                      class="text-xs font-medium uppercase tracking-wider text-slate-400"
+                      >API Latency avg</span
+                    >
+                    <span
+                      class="text-xs text-indigo-400 font-semibold bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800/50"
+                      >Fast</span
+                    >
+                  </div>
+                  <p class="text-2xl sm:text-3xl font-bold mt-2">18.4 ms</p>
+                  <p
+                    class="text-xs text-slate-400 mt-3 flex items-center gap-1"
+                  >
+                    <i
+                      data-lucide="shield-check"
+                      class="w-3.5 h-3.5 text-brand-400"
+                    ></i>
+                    Global edge CDN enabled
+                  </p>
+                </div>
+
+                <!-- Workflow Canvas Visual -->
+                <div
+                  class="lg:col-span-12 p-6 rounded-xl bg-slate-800/50 border border-slate-700/50"
+                >
+                  <div
+                    class="flex items-center justify-between pb-4 border-b border-slate-700/60"
+                  >
+                    <div class="flex items-center gap-2">
+                      <i
+                        data-lucide="git-merge"
+                        class="w-4 h-4 text-brand-400"
+                      ></i>
+                      <span class="text-sm font-semibold"
+                        >Active Pipeline: Stripe to Snowflake Sync</span
+                      >
+                    </div>
+                    <button
+                      id="trigger-simulate-btn"
+                      class="text-xs bg-brand-600 hover:bg-brand-500 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
+                    >
+                      Run Test Trigger
+                    </button>
+                  </div>
+                  <!-- Interactive Flow Visual Nodes -->
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div
+                      class="p-4 rounded-lg bg-slate-900/90 border border-indigo-500/40 relative"
+                    >
+                      <span
+                        class="text-xs text-brand-400 font-semibold uppercase"
+                        >Step 1: Webhook Ingestion</span
+                      >
+                      <h4 class="text-sm font-bold text-white mt-1">
+                        Stripe Checkout Success
+                      </h4>
+                      <p class="text-xs text-slate-400 mt-2">
+                        Parses payload metadata & customer ID
+                      </p>
+                    </div>
+                    <div
+                      class="p-4 rounded-lg bg-slate-900/90 border border-slate-700 relative"
+                    >
+                      <span
+                        class="text-xs text-amber-400 font-semibold uppercase"
+                        >Step 2: AI Enrichment</span
+                      >
+                      <h4 class="text-sm font-bold text-white mt-1">
+                        Churn Risk & Score Predictor
+                      </h4>
+                      <p class="text-xs text-slate-400 mt-2">
+                        Calculates LTV probability score
+                      </p>
+                    </div>
+                    <div
+                      class="p-4 rounded-lg bg-slate-900/90 border border-slate-700 relative"
+                    >
+                      <span
+                        class="text-xs text-emerald-400 font-semibold uppercase"
+                        >Step 3: Multi-destination</span
+                      >
+                      <h4 class="text-sm font-bold text-white mt-1">
+                        Snowflake & Slack Notification
+                      </h4>
+                      <p class="text-xs text-slate-400 mt-2">
+                        Database synced, sales notified
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floating Decorative Metric Badges -->
+          <div
+            class="hidden md:flex absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-200 items-center gap-3 animate-float"
+          >
+            <div
+              class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center"
+            >
+              <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+            </div>
+            <div class="text-left">
+              <p class="text-xs font-semibold text-slate-500">
+                System Efficiency
+              </p>
+              <p class="text-lg font-bold text-slate-800">+342% faster</p>
+            </div>
+          </div>
+
+          <div
+            class="hidden md:flex absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-200 items-center gap-3 animate-float"
+            style="animation-delay: 1.5s"
+          >
+            <div
+              class="w-10 h-10 rounded-xl bg-brand-100 text-brand-600 flex items-center justify-center"
+            >
+              <i data-lucide="sparkles" class="w-6 h-6"></i>
+            </div>
+            <div class="text-left">
+              <p class="text-xs font-semibold text-slate-500">
+                Autonomous Tasks
+              </p>
+              <p class="text-lg font-bold text-slate-800">100% Zero-Touch</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-y border-slate-200/80 bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p class="text-xs uppercase tracking-widest font-bold text-slate-400">
+            Trusted by over 4,000+ forward-thinking engineering teams
+          </p>
+          <div
+            class="mt-8 flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-60 grayscale hover:grayscale-0 transition-all"
+          >
+            <span
+              class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-1.5"
+              ><i data-lucide="boxes" class="w-6 h-6"></i> ACME Corp</span
+            >
+            <span
+              class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-1.5"
+              ><i data-lucide="layers" class="w-6 h-6"></i> Stackly</span
+            >
+            <span
+              class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-1.5"
+              ><i data-lucide="cpu" class="w-6 h-6"></i> NeuralBase</span
+            >
+            <span
+              class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-1.5"
+              ><i data-lucide="activity" class="w-6 h-6"></i> HyperScale</span
+            >
+            <span
+              class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-1.5"
+              ><i data-lucide="command" class="w-6 h-6"></i> Omnitool</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="features"
+        class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div class="text-center max-w-3xl mx-auto">
+          <h2
+            class="text-xs font-bold uppercase tracking-widest text-brand-600"
+          >
+            Enterprise Capabilities
+          </h2>
+          <p
+            class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight"
+          >
+            Everything your data engineering team needs
+          </p>
+          <p class="mt-4 text-base sm:text-lg text-slate-600">
+            Stop duct-taping custom scripts. Get pre-built triggers, end-to-end
+            type safety, and real-time observability in minutes.
+          </p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div
+            class="group p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-colors duration-300"
+            >
+              <i data-lucide="zap" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mt-6">
+              Instant Event Triggers
+            </h3>
+            <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+              Respond to incoming HTTP webhooks, scheduled cron jobs, and
+              database delta-changes with sub-millisecond execution times.
+            </p>
+            <div
+              class="mt-6 flex items-center text-sm font-semibold text-brand-600 group-hover:translate-x-1 transition-transform"
+            >
+              Learn more <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="group p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300"
+            >
+              <i data-lucide="shield-check" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mt-6">
+              Zero-Knowledge Vault
+            </h3>
+            <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+              End-to-end encrypted secret distribution ensures third-party API
+              credentials and customer records never leak outside memory.
+            </p>
+            <div
+              class="mt-6 flex items-center text-sm font-semibold text-purple-600 group-hover:translate-x-1 transition-transform"
+            >
+              Security docs
+              <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="group p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300"
+            >
+              <i data-lucide="line-chart" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mt-6">
+              Granular Observability
+            </h3>
+            <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+              Full execution replays, automatic retry loops, flame graphs, and
+              alerts piped directly to Slack, PagerDuty, or Discord.
+            </p>
+            <div
+              class="mt-6 flex items-center text-sm font-semibold text-emerald-600 group-hover:translate-x-1 transition-transform"
+            >
+              Explore metrics
+              <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+            </div>
+          </div>
+
+          <!-- Feature 4 -->
+          <div
+            class="group p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300"
+            >
+              <i data-lucide="cpu" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mt-6">
+              Built-in AI Agents
+            </h3>
+            <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+              Incorporate contextual LLM calls directly into pipeline steps to
+              clean unstructured data, translate strings, or score customer
+              tickets.
+            </p>
+            <div
+              class="mt-6 flex items-center text-sm font-semibold text-amber-600 group-hover:translate-x-1 transition-transform"
+            >
+              AI features <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+            </div>
+          </div>
+
+          <!-- Feature 5 -->
+          <div
+            class="group p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center group-hover:bg-sky-600 group-hover:text-white transition-colors duration-300"
+            >
+              <i data-lucide="code-2" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mt-6">
+              Code & No-Code Flexibility
+            </h3>
+            <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+              Write TypeScript or Python functions when you need custom
+              algorithms, or drag-and-drop 350+ pre-certified connector blocks.
+            </p>
+            <div
+              class="mt-6 flex items-center text-sm font-semibold text-sky-600 group-hover:translate-x-1 transition-transform"
+            >
+              View integrations
+              <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+            </div>
+          </div>
+
+          <!-- Feature 6 -->
+          <div
+            class="group p-8 rounded-2xl bg-white border border-slate-200 hover:border-brand-500/50 hover:shadow-xl hover:shadow-brand-500/5 transition-all duration-300"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-colors duration-300"
+            >
+              <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mt-6">
+              Self-Healing Pipelines
+            </h3>
+            <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+              Intelligent backoff and payload quarantine prevent cascading
+              errors when third-party partner APIs experience downtime.
+            </p>
+            <div
+              class="mt-6 flex items-center text-sm font-semibold text-rose-600 group-hover:translate-x-1 transition-transform"
+            >
+              Reliability stats
+              <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="how-it-works"
+        class="py-24 bg-slate-900 text-white relative overflow-hidden"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div class="text-center max-w-3xl mx-auto">
+            <span
+              class="text-brand-400 font-bold uppercase tracking-widest text-xs"
+              >Easy Onboarding</span
+            >
+            <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight">
+              Deploy in 3 straightforward steps
+            </h2>
+            <p class="mt-4 text-slate-400 text-base sm:text-lg">
+              No infrastructure management, no painful DevOps pipelines. Go from
+              idea to production in under an afternoon.
+            </p>
+          </div>
+
+          <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            <!-- Step 1 -->
+            <div
+              class="relative p-8 rounded-2xl bg-slate-800/80 border border-slate-700"
+            >
+              <span
+                class="w-10 h-10 rounded-full bg-brand-500/20 text-brand-400 font-bold flex items-center justify-center border border-brand-500/30 text-lg mb-6"
+                >1</span
+              >
+              <h3 class="text-xl font-bold text-white">Connect your stack</h3>
+              <p class="mt-3 text-slate-400 text-sm leading-relaxed">
+                Authenticate your warehouse, CRM, and cloud services using
+                standard OAuth 2.0 or secure scoped keys.
+              </p>
+              <div
+                class="mt-6 p-3 rounded-lg bg-slate-900 font-mono text-xs text-slate-300 border border-slate-800"
+              >
+                <span class="text-emerald-400">$</span> pulseflow link --all
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div
+              class="relative p-8 rounded-2xl bg-slate-800/80 border border-slate-700"
+            >
+              <span
+                class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center border border-purple-500/30 text-lg mb-6"
+                >2</span
+              >
+              <h3 class="text-xl font-bold text-white">Compose the logic</h3>
+              <p class="mt-3 text-slate-400 text-sm leading-relaxed">
+                Map data models using visual transforms or inline JavaScript
+                with full autocomplete and JSON schema validation.
+              </p>
+              <div
+                class="mt-6 p-3 rounded-lg bg-slate-900 font-mono text-xs text-slate-300 border border-slate-800"
+              >
+                <span class="text-purple-400">const</span> res = await
+                transform(event);
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div
+              class="relative p-8 rounded-2xl bg-slate-800/80 border border-slate-700"
+            >
+              <span
+                class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center border border-emerald-500/30 text-lg mb-6"
+                >3</span
+              >
+              <h3 class="text-xl font-bold text-white">Scale seamlessly</h3>
+              <p class="mt-3 text-slate-400 text-sm leading-relaxed">
+                PulseFlow handles concurrency spikes and guarantees
+                at-least-once delivery with automatic multi-zone fallback.
+              </p>
+              <div
+                class="mt-6 p-3 rounded-lg bg-slate-900 font-mono text-xs text-emerald-400 border border-slate-800 flex items-center gap-2"
+              >
+                <i data-lucide="check-circle" class="w-4 h-4"></i> Production
+                Deployed
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="pricing"
+        class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div class="text-center max-w-3xl mx-auto">
+          <h2
+            class="text-xs font-bold uppercase tracking-widest text-brand-600"
+          >
+            Predictable Pricing
+          </h2>
+          <p
+            class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight"
+          >
+            Invest in speed, not server maintenance
+          </p>
+          <p class="mt-4 text-base sm:text-lg text-slate-600">
+            Start free, upgrade as you scale. Cancel or switch tiers at any time
+            with transparent pricing.
+          </p>
+
+          <!-- Toggle Switch -->
+          <div class="mt-8 flex items-center justify-center gap-4">
+            <span
+              id="label-monthly"
+              class="text-sm font-semibold text-slate-900"
+              >Monthly Billing</span
+            >
+            <button
+              id="billing-toggle"
+              type="button"
+              class="w-14 h-8 flex items-center bg-slate-300 rounded-full p-1 cursor-pointer transition-colors focus:outline-none"
+              aria-label="Toggle pricing frequency"
+            >
+              <div
+                id="toggle-thumb"
+                class="bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-200"
+              ></div>
+            </button>
+            <span
+              id="label-annual"
+              class="text-sm font-semibold text-slate-500 flex items-center gap-1.5"
+            >
+              Annual Billing
+              <span
+                class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-0.5 rounded-full"
+                >Save 20%</span
+              >
+            </span>
+          </div>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div class="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          <!-- Starter Plan -->
+          <div
+            class="p-8 rounded-3xl bg-white border border-slate-200 flex flex-col justify-between hover:shadow-xl transition-shadow"
+          >
+            <div>
+              <span
+                class="text-xs font-bold tracking-widest text-slate-500 uppercase"
+                >Starter</span
+              >
+              <h3 class="text-xl font-bold text-slate-900 mt-1">
+                Hobby & Indie
+              </h3>
+              <p class="text-sm text-slate-500 mt-2">
+                Essential automation for prototypes & single projects.
+              </p>
+              <div class="mt-6 flex items-baseline">
+                <span
+                  class="text-4xl font-extrabold text-slate-900 price-starter"
+                  >$19</span
+                >
+                <span
+                  class="text-slate-500 ml-1 text-sm font-medium billing-period"
+                  >/ month</span
+                >
+              </div>
+              <ul class="mt-8 space-y-3.5 text-sm text-slate-600">
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                  Up to 50,000 runs / mo
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                  10 Active Pipelines
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                  3-day log retention
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                  Community Discord access
+                </li>
+              </ul>
+            </div>
+            <button
+              class="plan-btn mt-8 w-full py-3 rounded-xl border border-slate-300 font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+            >
+              Get Started
+            </button>
+          </div>
+
+          <!-- Pro Plan (Featured) -->
+          <div
+            class="p-8 rounded-3xl bg-slate-900 text-white border-2 border-brand-500 flex flex-col justify-between shadow-2xl relative"
+          >
+            <div
+              class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide"
+            >
+              Most Popular
+            </div>
+            <div>
+              <span
+                class="text-xs font-bold tracking-widest text-brand-400 uppercase"
+                >Professional</span
+              >
+              <h3 class="text-xl font-bold text-white mt-1">Growth Teams</h3>
+              <p class="text-sm text-slate-400 mt-2">
+                For scaling companies with fast-growing sync volumes.
+              </p>
+              <div class="mt-6 flex items-baseline">
+                <span class="text-4xl font-extrabold text-white price-pro"
+                  >$79</span
+                >
+                <span
+                  class="text-slate-400 ml-1 text-sm font-medium billing-period"
+                  >/ month</span
+                >
+              </div>
+              <ul class="mt-8 space-y-3.5 text-sm text-slate-300">
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400"></i>
+                  1,000,000 runs / mo
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400"></i>
+                  Unlimited active pipelines
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400"></i>
+                  30-day log history & replays
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400"></i> AI
+                  transforms & agent tasks
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-brand-400"></i>
+                  Priority 1-hr support
+                </li>
+              </ul>
+            </div>
+            <button
+              class="plan-btn mt-8 w-full py-3.5 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-500 shadow-lg shadow-brand-500/25 transition-all"
+            >
+              Start 14-Day Pro Trial
+            </button>
+          </div>
+
+          <!-- Enterprise Plan -->
+          <div
+            class="p-8 rounded-3xl bg-white border border-slate-200 flex flex-col justify-between hover:shadow-xl transition-shadow"
+          >
+            <div>
+              <span
+                class="text-xs font-bold tracking-widest text-slate-500 uppercase"
+                >Enterprise</span
+              >
+              <h3 class="text-xl font-bold text-slate-900 mt-1">
+                Custom Dedicated
+              </h3>
+              <p class="text-sm text-slate-500 mt-2">
+                Maximum compliance, security, and white-glove setup.
+              </p>
+              <div class="mt-6 flex items-baseline">
+                <span
+                  class="text-4xl font-extrabold text-slate-900 price-enterprise"
+                  >$299</span
+                >
+                <span
+                  class="text-slate-500 ml-1 text-sm font-medium billing-period"
+                  >/ month</span
+                >
+              </div>
+              <ul class="mt-8 space-y-3.5 text-sm text-slate-600">
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                  Unlimited runs & pipelines
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                  Single Sign-On (SAML / Okta)
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                  VPC peering & custom clusters
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                  Custom SLA guarantee (99.99%)
+                </li>
+                <li class="flex items-center gap-3">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i>
+                  Dedicated Solutions Architect
+                </li>
+              </ul>
+            </div>
+            <button
+              class="plan-btn mt-8 w-full py-3 rounded-xl border border-slate-300 font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+            >
+              Contact Sales
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="testimonials"
+        class="py-24 bg-slate-100/70 border-t border-slate-200/80"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-2xl mx-auto">
+            <span
+              class="text-xs font-bold uppercase tracking-widest text-brand-600"
+              >Social Proof</span
+            >
+            <h2
+              class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight"
+            >
+              Loved by engineers worldwide
+            </h2>
+            <p class="mt-3 text-slate-600">
+              See what tech leaders have to say about migrating their core data
+              operations to PulseFlow.
+            </p>
+          </div>
+
+          <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div
+              class="bg-white p-7 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex items-center gap-1 text-amber-400 mb-4">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-700 text-sm leading-relaxed">
+                  "PulseFlow cut our custom middleware maintenance to zero. We
+                  replaced over 1,500 lines of brittle Lambda functions with
+                  three declarative pipelines."
+                </p>
+              </div>
+              <div
+                class="mt-6 flex items-center gap-3 pt-4 border-t border-slate-100"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=96&h=96&fit=crop&crop=face"
+                  alt="Elena Vance"
+                  class="w-10 h-10 rounded-full object-cover"
+                  onerror="
+                    this.src =
+                      'https://placehold.co/96x96/e2e8f0/475569?text=EV'
+                  "
+                />
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900">Elena Vance</h4>
+                  <p class="text-xs text-slate-500">VP of Tech at CloudLayer</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div
+              class="bg-white p-7 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex items-center gap-1 text-amber-400 mb-4">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-700 text-sm leading-relaxed">
+                  "The instant error replays and automated edge retries have
+                  rescued our support team during multiple peak Black Friday
+                  traffic spikes. Invaluable."
+                </p>
+              </div>
+              <div
+                class="mt-6 flex items-center gap-3 pt-4 border-t border-slate-100"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=face"
+                  alt="Marcus Chen"
+                  class="w-10 h-10 rounded-full object-cover"
+                  onerror="
+                    this.src =
+                      'https://placehold.co/96x96/e2e8f0/475569?text=MC'
+                  "
+                />
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900">Marcus Chen</h4>
+                  <p class="text-xs text-slate-500">
+                    Principal Architect at OmniFin
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div
+              class="bg-white p-7 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex items-center gap-1 text-amber-400 mb-4">
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                  <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                </div>
+                <p class="text-slate-700 text-sm leading-relaxed">
+                  "We were able to migrate our complete revenue synchronization
+                  from our legacy ETL solution into PulseFlow in less than 48
+                  hours without dropping a single event."
+                </p>
+              </div>
+              <div
+                class="mt-6 flex items-center gap-3 pt-4 border-t border-slate-100"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=96&h=96&fit=crop&crop=face"
+                  alt="Sarah Jenkins"
+                  class="w-10 h-10 rounded-full object-cover"
+                  onerror="
+                    this.src =
+                      'https://placehold.co/96x96/e2e8f0/475569?text=SJ'
+                  "
+                />
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900">
+                    Sarah Jenkins
+                  </h4>
+                  <p class="text-xs text-slate-500">Head of Data at NovaLabs</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <h2
+            class="text-xs font-bold uppercase tracking-widest text-brand-600"
+          >
+            Got Questions?
+          </h2>
+          <p
+            class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight"
+          >
+            Frequently Asked Questions
+          </p>
+          <p class="mt-3 text-slate-600">
+            Everything you need to know about our product, security, and trial.
+          </p>
+        </div>
+
+        <div class="mt-12 space-y-4">
+          <!-- FAQ 1 -->
+          <div
+            class="faq-item border border-slate-200 rounded-2xl overflow-hidden bg-white"
+          >
+            <button
+              type="button"
+              class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:bg-slate-50 transition-colors"
+            >
+              <span class="font-bold text-slate-800 text-base"
+                >How does PulseFlow handle sensitive data and credentials?</span
+              >
+              <i
+                data-lucide="chevron-down"
+                class="faq-icon w-5 h-5 text-slate-500 transition-transform duration-200"
+              ></i>
+            </button>
+            <div
+              class="faq-content hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3"
+            >
+              PulseFlow uses hardware-backed AES-256-GCM encryption for all
+              stored keys and environment tokens. Payload data processed in
+              transit is kept strictly in transient volatile memory and is never
+              persisted unless you specifically configure an audit storage hook.
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div
+            class="faq-item border border-slate-200 rounded-2xl overflow-hidden bg-white"
+          >
+            <button
+              type="button"
+              class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:bg-slate-50 transition-colors"
+            >
+              <span class="font-bold text-slate-800 text-base"
+                >Can I write custom Node.js or Python code blocks?</span
+              >
+              <i
+                data-lucide="chevron-down"
+                class="faq-icon w-5 h-5 text-slate-500 transition-transform duration-200"
+              ></i>
+            </button>
+            <div
+              class="faq-content hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3"
+            >
+              Yes! PulseFlow provides a complete sandboxed V8 runtime for
+              TypeScript/JavaScript as well as micro-containerized Python
+              execution. You can import popular npm packages and Pip modules
+              within any step.
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div
+            class="faq-item border border-slate-200 rounded-2xl overflow-hidden bg-white"
+          >
+            <button
+              type="button"
+              class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:bg-slate-50 transition-colors"
+            >
+              <span class="font-bold text-slate-800 text-base"
+                >What happens if an external API fails during a workflow
+                execution?</span
+              >
+              <i
+                data-lucide="chevron-down"
+                class="faq-icon w-5 h-5 text-slate-500 transition-transform duration-200"
+              ></i>
+            </button>
+            <div
+              class="faq-content hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3"
+            >
+              We feature automated exponential backoff retries with circuit
+              breakers. If an API continues to report outages, the event payload
+              is placed into an interactive dead-letter queue (DLQ) where you
+              can replay it with one click once the third party recovers.
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div
+            class="faq-item border border-slate-200 rounded-2xl overflow-hidden bg-white"
+          >
+            <button
+              type="button"
+              class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none hover:bg-slate-50 transition-colors"
+            >
+              <span class="font-bold text-slate-800 text-base"
+                >Do you offer on-premise or self-hosted deployment
+                options?</span
+              >
+              <i
+                data-lucide="chevron-down"
+                class="faq-icon w-5 h-5 text-slate-500 transition-transform duration-200"
+              ></i>
+            </button>
+            <div
+              class="faq-content hidden px-6 pb-5 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3"
+            >
+              Yes. Enterprise customers have access to our Helm charts for
+              Kubernetes cluster deployments in AWS, Google Cloud, or Azure,
+              maintaining 100% data sovereignty.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        <div
+          class="rounded-3xl bg-gradient-to-r from-brand-700 via-indigo-700 to-purple-800 p-8 sm:p-14 text-white relative overflow-hidden shadow-2xl"
+        >
+          <div class="relative z-10 max-w-2xl">
+            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+              Ready to supercharge your stack?
+            </h2>
+            <p class="mt-4 text-brand-100 text-base sm:text-lg">
+              Join engineering teams from 120+ countries shipping reliable
+              automations every single day.
+            </p>
+
+            <form
+              id="newsletter-form"
+              class="mt-8 flex flex-col sm:flex-row gap-3"
+            >
+              <input
+                type="email"
+                id="newsletter-email"
+                required
+                placeholder="Enter your work email"
+                class="px-5 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-brand-200 focus:outline-none focus:ring-2 focus:ring-white w-full sm:w-80 backdrop-blur-sm"
+              />
+              <button
+                type="submit"
+                class="px-7 py-3.5 rounded-xl bg-white text-brand-700 font-bold hover:bg-brand-50 transition-colors shadow-lg"
+              >
+                Get Started Free
+              </button>
+            </form>
+            <p class="text-xs text-brand-200 mt-3">
+              Free 14-day trial • No credit card required • Cancel anytime
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+          <div class="col-span-2">
+            <div
+              class="flex items-center gap-2 text-white font-bold text-xl mb-4"
+            >
+              <div
+                class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white"
+              >
+                <i data-lucide="zap" class="w-4 h-4"></i>
+              </div>
+              PulseFlow
+            </div>
+            <p class="text-sm text-slate-400 max-w-sm mb-6 leading-relaxed">
+              The next-generation automation platform designed for modern tech
+              organizations that crave speed, reliability, and precision.
+            </p>
+            <div class="flex items-center gap-4 text-slate-400">
+              <a
+                href="#"
+                class="hover:text-white transition-colors"
+                aria-label="Twitter"
+                ><i data-lucide="twitter" class="w-5 h-5"></i
+              ></a>
+              <a
+                href="#"
+                class="hover:text-white transition-colors"
+                aria-label="GitHub"
+                ><i data-lucide="github" class="w-5 h-5"></i
+              ></a>
+              <a
+                href="#"
+                class="hover:text-white transition-colors"
+                aria-label="LinkedIn"
+                ><i data-lucide="linkedin" class="w-5 h-5"></i
+              ></a>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-white font-semibold text-sm mb-4">Product</h4>
+            <ul class="space-y-2.5 text-sm">
+              <li>
+                <a href="#features" class="hover:text-white transition-colors"
+                  >Integrations</a
+                >
+              </li>
+              <li>
+                <a href="#pricing" class="hover:text-white transition-colors"
+                  >Workflow Studio</a
+                >
+              </li>
+              <li>
+                <a href="#pricing" class="hover:text-white transition-colors"
+                  >Pricing</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Changelog</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-white font-semibold text-sm mb-4">Resources</h4>
+            <ul class="space-y-2.5 text-sm">
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >API Reference</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Community</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Status Page</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-white font-semibold text-sm mb-4">Company</h4>
+            <ul class="space-y-2.5 text-sm">
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Careers</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Terms of Service</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4"
+        >
+          <p>
+            &copy; <span id="current-year"></span> PulseFlow Inc. All rights
+            reserved.
+          </p>
+          <p class="flex items-center gap-2">
+            Built with modern standards for optimal performance.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <div
+      id="demo-modal"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-opacity duration-300"
+    >
+      <div
+        class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative"
+      >
+        <div
+          class="flex items-center justify-between pb-4 border-b border-slate-800"
+        >
+          <div class="flex items-center gap-2">
+            <i data-lucide="play" class="w-4 h-4 text-brand-400"></i>
+            <h3 class="text-white font-bold text-base">
+              PulseFlow Interactive Product Tour
+            </h3>
+          </div>
+          <button
+            id="close-demo-modal"
+            class="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+          >
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div
+          class="mt-6 aspect-video bg-slate-950 rounded-xl flex flex-col items-center justify-center text-center p-6 border border-slate-800"
+        >
+          <div
+            class="w-16 h-16 rounded-full bg-brand-600/20 text-brand-400 flex items-center justify-center mb-4"
+          >
+            <i data-lucide="film" class="w-8 h-8"></i>
+          </div>
+          <p class="text-white font-semibold">
+            Interactive Video Preview Simulator
+          </p>
+          <p class="text-xs text-slate-400 mt-2 max-w-sm">
+            Shows workflow configuration, trigger simulation, and live metrics
+            inspection in action.
+          </p>
+          <button
+            id="modal-start-trial"
+            class="mt-5 px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs tracking-wide uppercase transition-colors"
+          >
+            Start Free Trial Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // 1. Initialize Lucide Icons
+        lucide.createIcons();
+
+        // 2. Set dynamic current year
+        document.getElementById("current-year").textContent =
+          new Date().getFullYear();
+
+        // 3. Toast Helper Function
+        const showToast = (message) => {
+          const toast = document.getElementById("toast");
+          const toastMsg = document.getElementById("toast-message");
+          toastMsg.textContent = message;
+          toast.classList.remove("translate-y-24", "opacity-0");
+          toast.classList.add("translate-y-0", "opacity-100");
+
+          setTimeout(() => {
+            toast.classList.remove("translate-y-0", "opacity-100");
+            toast.classList.add("translate-y-24", "opacity-0");
+          }, 3200);
+        };
+
+        // 4. Mobile Menu Drawer Toggle
+        const mobileToggle = document.getElementById("mobile-menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const navLinks = document.querySelectorAll(".mobile-nav-link");
+
+        mobileToggle.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
+        });
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", () => {
+            mobileMenu.classList.add("hidden");
+          });
+        });
+
+        // 5. Interactive Demo Video Modal
+        const openModalBtn = document.getElementById("open-demo-modal");
+        const closeModalBtn = document.getElementById("close-demo-modal");
+        const demoModal = document.getElementById("demo-modal");
+        const modalStartTrial = document.getElementById("modal-start-trial");
+
+        const openModal = () => {
+          demoModal.classList.remove("hidden");
+          setTimeout(() => {
+            demoModal.classList.remove("opacity-0");
+          }, 10);
+        };
+
+        const closeModal = () => {
+          demoModal.classList.add("opacity-0");
+          setTimeout(() => {
+            demoModal.classList.add("hidden");
+          }, 300);
+        };
+
+        openModalBtn.addEventListener("click", openModal);
+        closeModalBtn.addEventListener("click", closeModal);
+        demoModal.addEventListener("click", (e) => {
+          if (e.target === demoModal) closeModal();
+        });
+
+        modalStartTrial.addEventListener("click", () => {
+          closeModal();
+          const pricing = document.getElementById("pricing");
+          pricing.scrollIntoView({ behavior: "smooth" });
+          showToast("Select a plan to start your 14-day trial");
+        });
+
+        // 6. Pricing Toggle (Monthly vs Annual)
+        const billingToggle = document.getElementById("billing-toggle");
+        const toggleThumb = document.getElementById("toggle-thumb");
+        const labelMonthly = document.getElementById("label-monthly");
+        const labelAnnual = document.getElementById("label-annual");
+
+        const priceStarter = document.querySelector(".price-starter");
+        const pricePro = document.querySelector(".price-pro");
+        const priceEnterprise = document.querySelector(".price-enterprise");
+        const billingPeriods = document.querySelectorAll(".billing-period");
+
+        let isAnnual = false;
+
+        billingToggle.addEventListener("click", () => {
+          isAnnual = !isAnnual;
+
+          if (isAnnual) {
+            billingToggle.classList.replace("bg-slate-300", "bg-brand-600");
+            toggleThumb.classList.add("translate-x-6");
+            labelMonthly.classList.replace("text-slate-900", "text-slate-500");
+            labelAnnual.classList.replace("text-slate-500", "text-slate-900");
+
+            priceStarter.textContent = "$15";
+            pricePro.textContent = "$63";
+            priceEnterprise.textContent = "$239";
+            billingPeriods.forEach(
+              (p) => (p.textContent = "/ month (billed annually)"),
+            );
+            showToast("Annual discount of 20% applied!");
+          } else {
+            billingToggle.classList.replace("bg-brand-600", "bg-slate-300");
+            toggleThumb.classList.remove("translate-x-6");
+            labelMonthly.classList.replace("text-slate-500", "text-slate-900");
+            labelAnnual.classList.replace("text-slate-900", "text-slate-500");
+
+            priceStarter.textContent = "$19";
+            pricePro.textContent = "$79";
+            priceEnterprise.textContent = "$299";
+            billingPeriods.forEach((p) => (p.textContent = "/ month"));
+          }
+        });
+
+        // 7. Plan Selection Buttons Feedback
+        const planButtons = document.querySelectorAll(".plan-btn");
+        planButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            showToast("Selected plan redirected to secure checkout.");
+          });
+        });
+
+        // 8. FAQ Accordion Toggle Interaction
+        const faqToggles = document.querySelectorAll(".faq-toggle");
+        faqToggles.forEach((toggle) => {
+          toggle.addEventListener("click", () => {
+            const content = toggle.nextElementSibling;
+            const icon = toggle.querySelector(".faq-icon");
+            const isExpanded = !content.classList.contains("hidden");
+
+            // Close all open FAQs
+            document
+              .querySelectorAll(".faq-content")
+              .forEach((item) => item.classList.add("hidden"));
+            document
+              .querySelectorAll(".faq-icon")
+              .forEach((ic) => ic.classList.remove("rotate-180"));
+
+            if (!isExpanded) {
+              content.classList.remove("hidden");
+              icon.classList.add("rotate-180");
+            }
+          });
+        });
+
+        // 9. Newsletter Form Submission Handling
+        const newsletterForm = document.getElementById("newsletter-form");
+        newsletterForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("newsletter-email").value;
+          if (email) {
+            showToast(`Welcome aboard! Confirmation sent to ${email}`);
+            newsletterForm.reset();
+          }
+        });
+
+        // 10. Dashboard Simulation Button
+        const testTriggerBtn = document.getElementById("trigger-simulate-btn");
+        if (testTriggerBtn) {
+          testTriggerBtn.addEventListener("click", () => {
+            testTriggerBtn.textContent = "Executing...";
+            testTriggerBtn.classList.replace("bg-brand-600", "bg-emerald-600");
+            setTimeout(() => {
+              testTriggerBtn.textContent = "Success (12ms)";
+              showToast("Pipeline event simulated and executed successfully!");
+              setTimeout(() => {
+                testTriggerBtn.textContent = "Run Test Trigger";
+                testTriggerBtn.classList.replace(
+                  "bg-emerald-600",
+                  "bg-brand-600",
+                );
+              }, 2000);
+            }, 600);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
