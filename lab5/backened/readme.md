@@ -49,3 +49,9 @@ app.listen(4444, () => {
 
 
 ```
+
+# Static pages
+
+we can add any static pages pages with the help of express.static.
+Express support middleware.
+When we have to execute some funx before server execution app.use is always applied to middleware.

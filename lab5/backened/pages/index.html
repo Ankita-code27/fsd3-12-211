@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPrime - Professional Online Coaching & Learning Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .page-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+        .page-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('home')">
+                    <div class="w-11 h-11 bg-gradient-to-tr from-brand-600 to-indigo-400 rounded-xl flex items-center justify-center text-white shadow-md shadow-brand-500/25">
+                        <i class="fa-solid fa-graduation-cap text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight text-slate-900">Edu<span class="text-brand-600">Prime</span></span>
+                        <span class="block text-[10px] font-semibold uppercase tracking-widest text-slate-400">Academy</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <button onclick="switchPage('home')" data-page="home" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-brand-600 hover:bg-brand-50/60 transition-all active-nav">Home</button>
+                    <button onclick="switchPage('courses')" data-page="courses" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-brand-600 hover:bg-brand-50/60 transition-all">Courses</button>
+                    <button onclick="switchPage('about')" data-page="about" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-brand-600 hover:bg-brand-50/60 transition-all">About Us</button>
+                    <button onclick="switchPage('testimonials')" data-page="testimonials" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-brand-600 hover:bg-brand-50/60 transition-all">Testimonials</button>
+                    <button onclick="switchPage('contact')" data-page="contact" class="nav-btn px-4 py-2 rounded-lg font-medium text-sm text-slate-600 hover:text-brand-600 hover:bg-brand-50/60 transition-all">Contact</button>
+                </nav>
+
+                <!-- Action CTA -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button onclick="openEnrollModal('General Coaching')" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-5 py-2.5 rounded-xl shadow-lg shadow-brand-500/20 transition-all transform hover:-translate-y-0.5 text-sm">
+                        Enroll Now
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="text-slate-600 hover:text-slate-900 p-2 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-2 shadow-xl">
+            <button onclick="switchPage('home'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Home</button>
+            <button onclick="switchPage('courses'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Courses</button>
+            <button onclick="switchPage('about'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">About Us</button>
+            <button onclick="switchPage('testimonials'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Testimonials</button>
+            <button onclick="switchPage('contact'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-lg font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Contact</button>
+            <div class="pt-2">
+                <button onclick="openEnrollModal('General Coaching'); toggleMobileMenu();" class="w-full text-center bg-brand-600 text-white font-semibold py-3 rounded-xl shadow-md">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- ================= PAGE 1: HOME ================= -->
+        <div id="page-home" class="page-content active">
+            <!-- Hero Section -->
+            <section class="relative overflow-hidden pt-16 pb-24 lg:pt-24 lg:pb-32 bg-gradient-to-b from-indigo-50/50 via-white to-slate-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                            <div class="inline-flex items-center space-x-2 bg-brand-50 border border-brand-100 px-3.5 py-1.5 rounded-full text-brand-700 text-xs font-bold uppercase tracking-wider">
+                                <i class="fa-solid fa-award"></i>
+                                <span>India's Leading Online Mentorship Platform</span>
+                            </div>
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                                Unlock Your True Potential with <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-400">Expert Coaching</span>
+                            </h1>
+                            <p class="text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0">
+                                Comprehensive online preparation for JEE, NEET, Civil Services, and Coding mastery. Learn directly from top IIT/IIM alumni and industry veterans.
+                            </p>
+                            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4 pt-2">
+                                <button onclick="switchPage('courses')" class="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white font-semibold px-8 py-4 rounded-xl shadow-xl shadow-brand-500/25 transition-all text-center">
+                                    Explore Courses <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                                </button>
+                                <button onclick="switchPage('about')" class="w-full sm:w-auto bg-white hover:bg-slate-100 text-slate-700 font-semibold px-8 py-4 rounded-xl border border-slate-200 shadow-sm transition-all text-center">
+                                    Watch Overview
+                                </button>
+                            </div>
+                            <!-- Trust badges -->
+                            <div class="pt-8 border-t border-slate-200/80 flex items-center justify-center lg:justify-start space-x-8 text-slate-500 text-sm font-medium">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fa-solid fa-user-graduate text-brand-600 text-lg"></i>
+                                    <span><strong>50,000+</strong> Students</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fa-solid fa-star text-amber-400 text-lg"></i>
+                                    <span><strong>4.9/5</strong> Rating</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-5 relative">
+                            <div class="relative mx-auto max-w-md lg:max-w-none">
+                                <div class="absolute -inset-1.5 bg-gradient-to-r from-brand-600 to-indigo-400 rounded-3xl blur-xl opacity-30 animate-pulse"></div>
+                                <div class="relative bg-white rounded-3xl p-6 shadow-2xl border border-slate-100 space-y-6">
+                                    <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-bold text-lg">
+                                                <i class="fa-solid fa-video"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-slate-900 text-sm">Live Interactive Masterclass</h4>
+                                                <p class="text-xs text-slate-500">Ongoing Session • Advanced Physics</p>
+                                            </div>
+                                        </div>
+                                        <span class="bg-red-500 text-white text-[10px] uppercase font-bold px-2.5 py-1 rounded-full animate-pulse">LIVE</span>
+                                    </div>
+                                    <div class="bg-slate-900 rounded-2xl h-48 flex flex-col items-center justify-center text-white p-4 relative overflow-hidden">
+                                        <div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')"></div>
+                                        <div class="relative z-10 text-center space-y-2">
+                                            <div class="w-12 h-12 rounded-full bg-brand-600/90 backdrop-blur flex items-center justify-center mx-auto text-white shadow-lg cursor-pointer hover:scale-110 transition-transform">
+                                                <i class="fa-solid fa-play ml-1"></i>
+                                            </div>
+                                            <p class="text-xs font-semibold text-slate-200">Join Free Demo Lecture Today</p>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4 pt-2">
+                                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                                            <p class="text-xs text-slate-500 font-medium">Success Rate</p>
+                                            <p class="text-lg font-extrabold text-slate-900">94.2%</p>
+                                        </div>
+                                        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                                            <p class="text-xs text-slate-500 font-medium">Top Ranks</p>
+                                            <p class="text-lg font-extrabold text-slate-900">1,250+</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Highlights -->
+            <section class="py-20 bg-white border-t border-slate-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-brand-600">Why Choose EduPrime</h2>
+                        <h3 class="text-3xl font-extrabold text-slate-900">Designed for Unrivaled Academic Excellence</h3>
+                        <p class="text-slate-600">We combine expert pedagogy, cutting-edge technology, and personalized mentorship to guarantee success.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-slate-50/80 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all hover:-translate-y-1">
+                            <div class="w-14 h-14 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center text-2xl font-bold mb-6">
+                                <i class="fa-solid fa-chalkboard-user"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3">Expert Faculty</h4>
+                            <p class="text-slate-600 leading-relaxed text-sm">Learn from distinguished educators with 15+ years of average teaching experience and proven rank-producing track records.</p>
+                        </div>
+                        <div class="bg-slate-50/80 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all hover:-translate-y-1">
+                            <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl font-bold mb-6">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3">Smart LMS & Doubt Clearing</h4>
+                            <p class="text-slate-600 leading-relaxed text-sm">24/7 dedicated doubt resolution portals, daily practice sheets, adaptive mock testing, and AI-driven performance analytics.</p>
+                        </div>
+                        <div class="bg-slate-50/80 p-8 rounded-3xl border border-slate-100 hover:shadow-xl transition-all hover:-translate-y-1">
+                            <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl font-bold mb-6">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-3">Personalized Mentorship</h4>
+                            <p class="text-slate-600 leading-relaxed text-sm">One-on-one strategy sessions with personal academic mentors to keep motivation high and study plans tailored.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 2: COURSES ================= -->
+        <div id="page-courses" class="page-content">
+            <section class="py-16 lg:py-24 bg-gradient-to-b from-slate-50 to-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-brand-600">Our Curriculum</h2>
+                        <h3 class="text-3xl lg:text-4xl font-extrabold text-slate-900">Explore Professional Coaching Programs</h3>
+                        <p class="text-slate-600">Choose from our meticulously curated batches designed for competitive examinations and career enhancement.</p>
+                    </div>
+
+                    <!-- Course Filter Pills -->
+                    <div class="flex flex-wrap items-center justify-center gap-3 mb-12">
+                        <button onclick="filterCourses('all')" class="course-filter-btn px-5 py-2 rounded-xl text-sm font-semibold bg-brand-600 text-white shadow-md transition-all">All Courses</button>
+                        <button onclick="filterCourses('engineering')" class="course-filter-btn px-5 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all">Engineering (JEE)</button>
+                        <button onclick="filterCourses('medical')" class="course-filter-btn px-5 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all">Medical (NEET)</button>
+                        <button onclick="filterCourses('coding')" class="course-filter-btn px-5 py-2 rounded-xl text-sm font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 transition-all">Coding & Tech</button>
+                    </div>
+
+                    <!-- Course Cards Grid -->
+                    <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Course 1 -->
+                        <div class="course-card bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all" data-category="engineering">
+                            <div>
+                                <div class="relative h-48 bg-indigo-900 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80" alt="JEE Course" class="w-full h-full object-cover opacity-60">
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-brand-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow">Engineering</span>
+                                    </div>
+                                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-slate-900">
+                                        12 Months
+                                    </div>
+                                </div>
+                                <div class="p-6 space-y-4">
+                                    <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+                                        <span><i class="fa-solid fa-user-tie text-brand-600 mr-1"></i> Er. R. K. Sharma (IIT Delhi)</span>
+                                        <span class="text-amber-500"><i class="fa-solid fa-star"></i> 4.9 (1.2k)</span>
+                                    </div>
+                                    <h4 class="text-xl font-bold text-slate-900">JEE Advanced & Main Elite Batch</h4>
+                                    <p class="text-slate-600 text-sm line-clamp-2">Complete physics, chemistry, and mathematics mastery with rigorous test series and problem-solving tricks.</p>
+                                    <div class="flex items-center space-x-4 pt-2 text-xs text-slate-500 font-medium">
+                                        <span><i class="fa-solid fa-book-open mr-1"></i> 240+ Lectures</span>
+                                        <span><i class="fa-solid fa-file-lines mr-1"></i> 50 Mock Tests</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 mt-4">
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Tuition Fee</span>
+                                    <span class="text-xl font-extrabold text-slate-900">₹34,999</span>
+                                </div>
+                                <button onclick="openEnrollModal('JEE Advanced & Main Elite Batch')" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm shadow transition-all">
+                                    Enroll Now
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Course 2 -->
+                        <div class="course-card bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all" data-category="medical">
+                            <div>
+                                <div class="relative h-48 bg-emerald-900 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80" alt="NEET Course" class="w-full h-full object-cover opacity-60">
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow">Medical</span>
+                                    </div>
+                                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-slate-900">
+                                        12 Months
+                                    </div>
+                                </div>
+                                <div class="p-6 space-y-4">
+                                    <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+                                        <span><i class="fa-solid fa-user-tie text-emerald-600 mr-1"></i> Dr. Ananya Sen (AIIMS)</span>
+                                        <span class="text-amber-500"><i class="fa-solid fa-star"></i> 4.9 (950)</span>
+                                    </div>
+                                    <h4 class="text-xl font-bold text-slate-900">NEET Ultimate Medical Aspirants</h4>
+                                    <p class="text-slate-600 text-sm line-clamp-2">Master Biology, Physics, and Chemistry with NCERT line-by-line breakdown and clinical case-study analysis.</p>
+                                    <div class="flex items-center space-x-4 pt-2 text-xs text-slate-500 font-medium">
+                                        <span><i class="fa-solid fa-book-open mr-1"></i> 220+ Lectures</span>
+                                        <span><i class="fa-solid fa-file-lines mr-1"></i> 45 Mock Tests</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 mt-4">
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Tuition Fee</span>
+                                    <span class="text-xl font-extrabold text-slate-900">₹32,999</span>
+                                </div>
+                                <button onclick="openEnrollModal('NEET Ultimate Medical Aspirants')" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm shadow transition-all">
+                                    Enroll Now
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Course 3 -->
+                        <div class="course-card bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all" data-category="coding">
+                            <div>
+                                <div class="relative h-48 bg-blue-900 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" alt="Coding Course" class="w-full h-full object-cover opacity-60">
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow">Coding & Tech</span>
+                                    </div>
+                                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-slate-900">
+                                        6 Months
+                                    </div>
+                                </div>
+                                <div class="p-6 space-y-4">
+                                    <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+                                        <span><i class="fa-solid fa-user-tie text-blue-600 mr-1"></i> Vikramaditya (Ex-Google)</span>
+                                        <span class="text-amber-500"><i class="fa-solid fa-star"></i> 4.8 (2.1k)</span>
+                                    </div>
+                                    <h4 class="text-xl font-bold text-slate-900">Full-Stack Web Development & DSA</h4>
+                                    <p class="text-slate-600 text-sm line-clamp-2">Learn Data Structures, Algorithms, React, Node.js, and build production-ready full stack web applications.</p>
+                                    <div class="flex items-center space-x-4 pt-2 text-xs text-slate-500 font-medium">
+                                        <span><i class="fa-solid fa-book-open mr-1"></i> 180+ Lectures</span>
+                                        <span><i class="fa-solid fa-laptop-code mr-1"></i> 15 Projects</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 mt-4">
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Tuition Fee</span>
+                                    <span class="text-xl font-extrabold text-slate-900">₹24,999</span>
+                                </div>
+                                <button onclick="openEnrollModal('Full-Stack Web Development & DSA')" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm shadow transition-all">
+                                    Enroll Now
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Course 4 -->
+                        <div class="course-card bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all" data-category="engineering">
+                            <div>
+                                <div class="relative h-48 bg-indigo-900 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80" alt="Foundation Course" class="w-full h-full object-cover opacity-60">
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-brand-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow">Engineering</span>
+                                    </div>
+                                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-slate-900">
+                                        24 Months
+                                    </div>
+                                </div>
+                                <div class="p-6 space-y-4">
+                                    <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+                                        <span><i class="fa-solid fa-user-tie text-brand-600 mr-1"></i> Prof. S. K. Verma</span>
+                                        <span class="text-amber-500"><i class="fa-solid fa-star"></i> 4.9 (820)</span>
+                                    </div>
+                                    <h4 class="text-xl font-bold text-slate-900">Class 10th to 12th Foundation Batch</h4>
+                                    <p class="text-slate-600 text-sm line-clamp-2">Early foundation builder for school boards as well as competitive entrance examinations.</p>
+                                    <div class="flex items-center space-x-4 pt-2 text-xs text-slate-500 font-medium">
+                                        <span><i class="fa-solid fa-book-open mr-1"></i> 300+ Lectures</span>
+                                        <span><i class="fa-solid fa-file-lines mr-1"></i> 80 Mock Tests</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 mt-4">
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Tuition Fee</span>
+                                    <span class="text-xl font-extrabold text-slate-900">₹45,999</span>
+                                </div>
+                                <button onclick="openEnrollModal('Class 10th to 12th Foundation Batch')" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm shadow transition-all">
+                                    Enroll Now
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Course 5 -->
+                        <div class="course-card bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all" data-category="coding">
+                            <div>
+                                <div class="relative h-48 bg-purple-900 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" alt="AI & ML" class="w-full h-full object-cover opacity-60">
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-purple-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow">Coding & Tech</span>
+                                    </div>
+                                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-slate-900">
+                                        6 Months
+                                    </div>
+                                </div>
+                                <div class="p-6 space-y-4">
+                                    <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+                                        <span><i class="fa-solid fa-user-tie text-purple-600 mr-1"></i> Dr. Neha Kapoor (PhD AI)</span>
+                                        <span class="text-amber-500"><i class="fa-solid fa-star"></i> 4.9 (1.5k)</span>
+                                    </div>
+                                    <h4 class="text-xl font-bold text-slate-900">Artificial Intelligence & Data Science</h4>
+                                    <p class="text-slate-600 text-sm line-clamp-2">Python, Machine Learning, Deep Learning, Neural Networks, and Generative AI practical engineering.</p>
+                                    <div class="flex items-center space-x-4 pt-2 text-xs text-slate-500 font-medium">
+                                        <span><i class="fa-solid fa-book-open mr-1"></i> 160+ Lectures</span>
+                                        <span><i class="fa-solid fa-laptop-code mr-1"></i> 10 Projects</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 mt-4">
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Tuition Fee</span>
+                                    <span class="text-xl font-extrabold text-slate-900">₹29,999</span>
+                                </div>
+                                <button onclick="openEnrollModal('Artificial Intelligence & Data Science')" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm shadow transition-all">
+                                    Enroll Now
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Course 6 -->
+                        <div class="course-card bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all" data-category="medical">
+                            <div>
+                                <div class="relative h-48 bg-emerald-900 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=600&q=80" alt="NEET Crash Course" class="w-full h-full object-cover opacity-60">
+                                    <div class="absolute top-4 left-4">
+                                        <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow">Medical</span>
+                                    </div>
+                                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-xs font-bold text-slate-900">
+                                        3 Months
+                                    </div>
+                                </div>
+                                <div class="p-6 space-y-4">
+                                    <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+                                        <span><i class="fa-solid fa-user-tie text-emerald-600 mr-1"></i> Dr. Rajeshwar Rao</span>
+                                        <span class="text-amber-500"><i class="fa-solid fa-star"></i> 4.7 (640)</span>
+                                    </div>
+                                    <h4 class="text-xl font-bold text-slate-900">NEET Rapid Revision & Test Series</h4>
+                                    <p class="text-slate-600 text-sm line-clamp-2">High-yield concept boosters, previous years' question analysis, and full-length simulated exam drills.</p>
+                                    <div class="flex items-center space-x-4 pt-2 text-xs text-slate-500 font-medium">
+                                        <span><i class="fa-solid fa-book-open mr-1"></i> 90+ Lectures</span>
+                                        <span><i class="fa-solid fa-file-lines mr-1"></i> 30 Mock Tests</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0 flex items-center justify-between border-t border-slate-100 mt-4">
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Tuition Fee</span>
+                                    <span class="text-xl font-extrabold text-slate-900">₹14,999</span>
+                                </div>
+                                <button onclick="openEnrollModal('NEET Rapid Revision & Test Series')" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-4 py-2.5 rounded-xl text-sm shadow transition-all">
+                                    Enroll Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 3: ABOUT US ================= -->
+        <div id="page-about" class="page-content">
+            <section class="py-16 lg:py-24 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <!-- Heading -->
+                    <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-brand-600">Our Story & Mission</h2>
+                        <h3 class="text-3xl lg:text-4xl font-extrabold text-slate-900">Empowering Minds, Shaping Futures</h3>
+                        <p class="text-slate-600">EduPrime was founded in 2018 with a simple vision: to make elite-tier academic mentorship accessible to every ambitious student across the globe, irrespective of geography.</p>
+                    </div>
+
+                    <!-- Mission & Vision Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24">
+                        <div class="space-y-6">
+                            <div class="inline-flex items-center space-x-2 bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-lg text-xs font-bold">
+                                <i class="fa-solid fa-bullseye"></i>
+                                <span>Our Core Mission</span>
+                            </div>
+                            <h4 class="text-2xl font-bold text-slate-900">Democratizing World-Class Education through Technology</h4>
+                            <p class="text-slate-600 leading-relaxed">
+                                We believe that talent is universal, but opportunities are not. By harnessing advanced streaming technology, customized learning algorithms, and master educators, we bridge the gap between hard work and top-tier results.
+                            </p>
+                            <ul class="space-y-3 text-slate-700 font-medium text-sm">
+                                <li class="flex items-center space-x-3"><i class="fa-solid fa-circle-check text-brand-600"></i> <span>100% Live interactive classes with recording access</span></li>
+                                <li class="flex items-center space-x-3"><i class="fa-solid fa-circle-check text-brand-600"></i> <span>Rigorous peer testing and state-of-the-art assessments</span></li>
+                                <li class="flex items-center space-x-3"><i class="fa-solid fa-circle-check text-brand-600"></i> <span>Holistic student wellness and stress management sessions</span></li>
+                            </ul>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute -inset-2 bg-gradient-to-tr from-brand-600 to-indigo-400 rounded-3xl opacity-20 blur-lg"></div>
+                            <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" alt="Classroom learning" class="relative rounded-3xl shadow-xl border border-slate-100 w-full object-cover h-80">
+                        </div>
+                    </div>
+
+                    <!-- Faculty Section -->
+                    <div class="mb-20">
+                        <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                            <h3 class="text-2xl lg:text-3xl font-extrabold text-slate-900">Meet Our Leadership & Faculty</h3>
+                            <p class="text-slate-600 text-sm">A team of passionate educators and alumni from premier institutions.</p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <div class="bg-slate-50 rounded-3xl p-6 text-center border border-slate-100 space-y-4">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Faculty" class="w-24 h-24 rounded-full mx-auto object-cover shadow-md">
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-lg">Dr. Sunita Murthy</h5>
+                                    <p class="text-xs font-semibold text-brand-600">Chief Academic Officer</p>
+                                </div>
+                                <p class="text-xs text-slate-500">Ex-Professor IISc Bangalore with 20+ years in scientific research and pedagogy.</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-3xl p-6 text-center border border-slate-100 space-y-4">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" alt="Faculty" class="w-24 h-24 rounded-full mx-auto object-cover shadow-md">
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-lg">Er. Arvind Swaminathan</h5>
+                                    <p class="text-xs font-semibold text-brand-600">Head of Engineering</p>
+                                </div>
+                                <p class="text-xs text-slate-500">IIT Bombay Alumnus, mentor to over 5,000 successful engineers.</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-3xl p-6 text-center border border-slate-100 space-y-4">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Faculty" class="w-24 h-24 rounded-full mx-auto object-cover shadow-md">
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-lg">Dr. Priya Nair</h5>
+                                    <p class="text-xs font-semibold text-brand-600">Head of Medical Prep</p>
+                                </div>
+                                <p class="text-xs text-slate-500">AIIMS Gold Medalist and passionate educator with student-first ethos.</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-3xl p-6 text-center border border-slate-100 space-y-4">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80" alt="Faculty" class="w-24 h-24 rounded-full mx-auto object-cover shadow-md">
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-lg">Karan Malhotra</h5>
+                                    <p class="text-xs font-semibold text-brand-600">Tech Lead & Instructor</p>
+                                </div>
+                                <p class="text-xs text-slate-500">Ex-Meta engineer specializing in scalable system design and coding bootcamps.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 4: TESTIMONIALS ================= -->
+        <div id="page-testimonials" class="page-content">
+            <section class="py-16 lg:py-24 bg-gradient-to-b from-slate-50 to-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-brand-600">Success Stories</h2>
+                        <h3 class="text-3xl lg:text-4xl font-extrabold text-slate-900">Hear From Our Achievers</h3>
+                        <p class="text-slate-600">Real stories of dedication, mentorship, and triumph from students who cracked India's toughest competitive exams.</p>
+                    </div>
+
+                    <!-- Testimonials Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                        <!-- Testimonial 1 -->
+                        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-xl transition-all">
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-1 text-amber-400">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="text-slate-700 text-sm italic leading-relaxed">
+                                    "EduPrime's structured problem-solving approach and weekly mock tests changed the game for me. I secured AIR 142 in JEE Advanced thanks to the phenomenal mentorship."
+                                </p>
+                            </div>
+                            <div class="flex items-center space-x-4 pt-6 border-t border-slate-100 mt-6">
+                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Student" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-sm">Aditya Verma</h5>
+                                    <p class="text-xs text-brand-600 font-semibold">IIT Delhi (JEE Advanced AIR 142)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 2 -->
+                        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-xl transition-all">
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-1 text-amber-400">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="text-slate-700 text-sm italic leading-relaxed">
+                                    "The biology and chemistry crash courses were absolute lifesavers. The faculty explains complex concepts with immense clarity. Cleared NEET with 685 marks!"
+                                </p>
+                            </div>
+                            <div class="flex items-center space-x-4 pt-6 border-t border-slate-100 mt-6">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" alt="Student" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-sm">Sneha Choudhary</h5>
+                                    <p class="text-xs text-brand-600 font-semibold">AIIMS Delhi (NEET Score 685)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Testimonial 3 -->
+                        <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-xl transition-all">
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-1 text-amber-400">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="text-slate-700 text-sm italic leading-relaxed">
+                                    "As someone from a tier-3 city, getting into a top tech company seemed distant. EduPrime's coding bootcamp and resume workshops helped me land a Software Engineer role at Microsoft!"
+                                </p>
+                            </div>
+                            <div class="flex items-center space-x-4 pt-6 border-t border-slate-100 mt-6">
+                                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80" alt="Student" class="w-12 h-12 rounded-full object-cover">
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-sm">Rohan Kulkarni</h5>
+                                    <p class="text-xs text-brand-600 font-semibold">Software Engineer @ Microsoft</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Testimonial Banner -->
+                    <div class="bg-brand-900 rounded-3xl p-8 lg:p-12 text-white relative overflow-hidden flex flex-col lg:flex-row items-center justify-between shadow-2xl">
+                        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80')"></div>
+                        <div class="relative z-10 max-w-xl space-y-4 mb-6 lg:mb-0">
+                            <span class="bg-brand-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg uppercase tracking-wider">Video Success Story</span>
+                            <h4 class="text-2xl lg:text-3xl font-extrabold">Watch how Rahul went from 40% to AIR 45 in JEE</h4>
+                            <p class="text-slate-300 text-sm">Discover his daily study schedule, revision techniques, and how EduPrime mentors guided him through burnout.</p>
+                        </div>
+                        <div class="relative z-10">
+                            <button onclick="openVideoModal()" class="bg-white hover:bg-slate-100 text-slate-900 font-bold px-8 py-4 rounded-2xl shadow-xl flex items-center space-x-3 transition-all transform hover:scale-105">
+                                <div class="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-sm">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </div>
+                                <span>Watch Interview</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 5: CONTACT ================= -->
+        <div id="page-contact" class="page-content">
+            <section class="py-16 lg:py-24 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-brand-600">Get in Touch</h2>
+                        <h3 class="text-3xl lg:text-4xl font-extrabold text-slate-900">We're Here to Answer Your Questions</h3>
+                        <p class="text-slate-600">Reach out to our academic counsellors for course inquiries, demo bookings, or personalized roadmap advice.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                        <!-- Contact Info Card -->
+                        <div class="lg:col-span-5 bg-slate-900 text-white rounded-3xl p-8 lg:p-10 space-y-8 shadow-xl">
+                            <div>
+                                <h4 class="text-2xl font-bold mb-2">Contact Information</h4>
+                                <p class="text-slate-400 text-sm">Fill out the form or reach us directly through our official channels.</p>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-brand-600/20 text-brand-400 flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-location-dot text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-sm">Headquarters</h5>
+                                        <p class="text-slate-400 text-xs mt-1">EduPrime Tower, Sector 62, Noida, UP - 201309</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-brand-600/20 text-brand-400 flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-phone text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-sm">Helpline Number</h5>
+                                        <p class="text-slate-400 text-xs mt-1">+91 (800) 555-EDU1 / +91 (800) 555-3382</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-12 h-12 rounded-2xl bg-brand-600/20 text-brand-400 flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-envelope text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-sm">Support Email</h5>
+                                        <p class="text-slate-400 text-xs mt-1">admissions@eduprimeacademy.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-6 border-t border-slate-800">
+                                <h5 class="font-bold text-sm mb-4">Connect With Us</h5>
+                                <div class="flex items-center space-x-3">
+                                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-twitter"></i></a>
+                                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-instagram"></i></a>
+                                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-linkedin-in"></i></a>
+                                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-youtube"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Form -->
+                        <div class="lg:col-span-7 bg-slate-50 p-8 lg:p-10 rounded-3xl border border-slate-200 shadow-sm">
+                            <form onsubmit="handleContactSubmit(event)" class="space-y-6">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Full Name</label>
+                                        <input type="text" required placeholder="John Doe" class="w-full bg-white px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Email Address</label>
+                                        <input type="email" required placeholder="john@example.com" class="w-full bg-white px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Phone Number</label>
+                                        <input type="tel" required placeholder="+91 98765 43210" class="w-full bg-white px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Interested Program</label>
+                                        <select class="w-full bg-white px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                            <option>JEE Engineering Coaching</option>
+                                            <option>NEET Medical Coaching</option>
+                                            <option>Coding & Web Development</option>
+                                            <option>Foundation Batch (Class 10)</option>
+                                            <option>General Inquiry</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Your Message / Query</label>
+                                    <textarea rows="4" required placeholder="Tell us about your preparation goals..." class="w-full bg-white px-4 py-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-4 rounded-xl shadow-lg shadow-brand-500/25 transition-all text-center">
+                                    Send Message
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 pt-16 pb-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
+                <!-- Col 1: Brand Info -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('home')">
+                        <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white">
+                            <i class="fa-solid fa-graduation-cap text-lg"></i>
+                        </div>
+                        <span class="text-xl font-extrabold tracking-tight text-white">Edu<span class="text-brand-500">Prime</span></span>
+                    </div>
+                    <p class="text-sm text-slate-400 max-w-sm">
+                        EduPrime Academy provides premium online coaching for JEE, NEET, and Professional Tech courses. Empowering future leaders through dedicated mentorship and advanced learning tech.
+                    </p>
+                    <div class="flex items-center space-x-3 pt-2">
+                        <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-facebook-f text-sm"></i></a>
+                        <a href="https://twitter.com" target="_blank" aria-label="Twitter" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-twitter text-sm"></i></a>
+                        <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-instagram text-sm"></i></a>
+                        <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-linkedin-in text-sm"></i></a>
+                        <a href="https://youtube.com" target="_blank" aria-label="YouTube" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-brand-600 flex items-center justify-center text-slate-300 hover:text-white transition-all"><i class="fa-brands fa-youtube text-sm"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div class="space-y-4">
+                    <h5 class="text-white font-bold text-sm tracking-wider uppercase">Quick Links</h5>
+                    <ul class="space-y-2.5 text-sm font-medium">
+                        <li><button onclick="switchPage('home')" class="hover:text-white transition-colors">Home</button></li>
+                        <li><button onclick="switchPage('courses')" class="hover:text-white transition-colors">Courses</button></li>
+                        <li><button onclick="switchPage('about')" class="hover:text-white transition-colors">About Us</button></li>
+                        <li><button onclick="switchPage('testimonials')" class="hover:text-white transition-colors">Testimonials</button></li>
+                        <li><button onclick="switchPage('contact')" class="hover:text-white transition-colors">Contact Us</button></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Programs -->
+                <div class="space-y-4">
+                    <h5 class="text-white font-bold text-sm tracking-wider uppercase">Top Programs</h5>
+                    <ul class="space-y-2.5 text-sm font-medium">
+                        <li><button onclick="switchPage('courses')" class="hover:text-white transition-colors">JEE Advanced Elite</button></li>
+                        <li><button onclick="switchPage('courses')" class="hover:text-white transition-colors">NEET Medical Batch</button></li>
+                        <li><button onclick="switchPage('courses')" class="hover:text-white transition-colors">Full-Stack Dev & DSA</button></li>
+                        <li><button onclick="switchPage('courses')" class="hover:text-white transition-colors">AI & Data Science</button></li>
+                        <li><button onclick="switchPage('courses')" class="hover:text-white transition-colors">Class 10 Foundation</button></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Newsletter -->
+                <div class="space-y-4">
+                    <h5 class="text-white font-bold text-sm tracking-wider uppercase">Stay Updated</h5>
+                    <p class="text-xs text-slate-400">Subscribe to our newsletter for scholarship announcements and exam tips.</p>
+                    <form onsubmit="handleNewsletter(event)" class="space-y-2">
+                        <input type="email" required placeholder="Enter your email" class="w-full bg-slate-800 border border-slate-700 px-3.5 py-2.5 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500">
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold py-2.5 rounded-xl transition-all">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 space-y-4 sm:space-y-0">
+                <p>&copy; 2026 EduPrime Academy. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-slate-400">Privacy Policy</a>
+                    <a href="#" class="hover:text-slate-400">Terms of Service</a>
+                    <a href="#" class="hover:text-slate-400">Refund Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Enrollment Modal -->
+    <div id="enroll-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 relative shadow-2xl animate-in fade-in zoom-in duration-200">
+            <button onclick="closeEnrollModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="space-y-2 mb-6">
+                <span class="bg-brand-50 text-brand-700 text-xs font-bold px-3 py-1 rounded-lg">Express Admission</span>
+                <h3 class="text-2xl font-bold text-slate-900">Secure Your Spot</h3>
+                <p class="text-xs text-slate-500">Registering for: <strong id="modal-course-name" class="text-brand-600">General Coaching</strong></p>
+            </div>
+            <form onsubmit="handleEnrollSubmit(event)" class="space-y-4">
+                <div class="space-y-1.5">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Full Name</label>
+                    <input type="text" required placeholder="Enter student name" class="w-full bg-slate-50 px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Email Address</label>
+                    <input type="email" required placeholder="student@example.com" class="w-full bg-slate-50 px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Phone Number</label>
+                    <input type="tel" required placeholder="+91 98765 43210" class="w-full bg-slate-50 px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-brand-500/25 transition-all text-sm mt-2">
+                    Complete Registration & Get Callback
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 rounded-3xl max-w-3xl w-full p-4 relative shadow-2xl">
+            <button onclick="closeVideoModal()" class="absolute top-4 right-4 text-white hover:text-slate-300 z-10 bg-slate-800/80 w-10 h-10 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="aspect-video bg-black rounded-2xl flex items-center justify-center relative overflow-hidden">
+                <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1" title="Success Story" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Banner -->
+    <div id="toast-banner" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-800">
+        <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h5 id="toast-title" class="font-bold text-sm">Success!</h5>
+            <p id="toast-desc" class="text-xs text-slate-300">Your request has been received.</p>
+        </div>
+    </div>
+
+    <script>
+        // Page Switching Function
+        function switchPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Show selected page
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Update active state in navbar buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                if (btn.getAttribute('data-page') === pageId) {
+                    btn.classList.add('text-brand-600', 'bg-brand-50/80');
+                } else {
+                    btn.classList.remove('text-brand-600', 'bg-brand-50/80');
+                }
+            });
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Course Filter Function
+        function filterCourses(category) {
+            // Update filter buttons style
+            const filterBtns = document.querySelectorAll('.course-filter-btn');
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-brand-600', 'text-white', 'shadow-md');
+                btn.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+            });
+            event.target.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
+            event.target.classList.add('bg-brand-600', 'text-white', 'shadow-md');
+
+            // Filter cards
+            const cards = document.querySelectorAll('.course-card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (category === 'all' || cardCat === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Enrollment Modal Controls
+        function openEnrollModal(courseName) {
+            document.getElementById('modal-course-name').innerText = courseName;
+            const modal = document.getElementById('enroll-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEnrollModal() {
+            const modal = document.getElementById('enroll-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Video Modal Controls
+        function openVideoModal() {
+            const modal = document.getElementById('video-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('video-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Toast Notification Trigger
+        function showToast(title, desc) {
+            const toast = document.getElementById('toast-banner');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-desc').innerText = desc;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 4000);
+        }
+
+        // Form Handlers
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            showToast('Message Sent!', 'Our academic counselor will call you within 2 hours.');
+            e.target.reset();
+        }
+
+        function handleEnrollSubmit(e) {
+            e.preventDefault();
+            closeEnrollModal();
+            showToast('Enrollment Confirmed!', 'We have received your request. Welcome to EduPrime!');
+            e.target.reset();
+        }
+
+        function handleNewsletter(e) {
+            e.preventDefault();
+            showToast('Subscribed Successfully!', 'You will receive our weekly academic updates.');
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>
